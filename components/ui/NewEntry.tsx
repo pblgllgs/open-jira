@@ -4,27 +4,22 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import { useContext, useState } from 'react';
 import { EntriesContext } from '../../context/entries';
 import Swal from 'sweetalert2';
+import { UIContext } from '../../context/ui';
 
 const INITIAL_FORM = '';
 
 export const NewEntry = () => {
   const { addNewEntry } = useContext(EntriesContext);
-  const [isAdding, setIsAdding] = useState(false);
+  const { isAddingEntry, setIsAddingEntry } = useContext(UIContext);
 
-  const handleAdd = () => setIsAdding(true);
-
-  const handleClean = () => {
-    setIsAdding(false);
-    setTouch(false);
-    handleReset();
-  };
   const [inputValue, setInputValue] = useState(INITIAL_FORM);
 
-  const [touch, setTouch] = useState(false);
+  const [touch, setTouched] = useState(false);
 
   const handleReset = () => {
     setInputValue(INITIAL_FORM);
-    setTouch(false);
+    setTouched(false);
+    setIsAddingEntry(false);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,20 +28,15 @@ export const NewEntry = () => {
 
   const handleSave = () => {
     if (inputValue.trim().length === 0) return;
-    setIsAdding(false);
-    setTouch(false);
-    handleClean();
     addNewEntry(inputValue);
-    Swal.fire(
-      '¡Listo!',
-      'Se ha agregado una nueva entrada',
-      'success'
-    );
+    setIsAddingEntry(false);
+    setTouched(false);
+    Swal.fire('¡Listo!', 'Se ha agregado una nueva entrada', 'success');
   };
 
   return (
     <Box sx={{ marginBottom: 2, paddingX: 1 }}>
-      {isAdding ? (
+      {isAddingEntry ? (
         <>
           <TextField
             fullWidth
@@ -58,11 +48,11 @@ export const NewEntry = () => {
             helperText={touch && inputValue === '' && 'Ingrese un valor'}
             value={inputValue}
             onChange={handleChange}
-            onBlur={() => setTouch(true)}
+            onBlur={() => setTouched(true)}
             error={touch && inputValue === ''}
           />
           <Box display="flex" justifyContent="space-between">
-            <Button variant="text" onClick={handleClean}>
+            <Button variant="text" onClick={handleReset}>
               Cancelar
             </Button>
             <Button
@@ -80,7 +70,7 @@ export const NewEntry = () => {
           startIcon={<AddCircleOutlineOutlinedIcon />}
           fullWidth
           variant="outlined"
-          onClick={handleAdd}
+          onClick={() => setIsAddingEntry(true)}
         >
           New Entry
         </Button>
