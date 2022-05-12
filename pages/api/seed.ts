@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     await db.disconnect();
     res.status(200).json(
         {
-            message: 'Todo correcto',
+            message: 'BD restablesida',
         }
     );
 }

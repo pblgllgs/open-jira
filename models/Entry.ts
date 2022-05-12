@@ -1,7 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
 import { Entry } from '../interfaces/entry';
 
-interface IEntry extends Entry{
+export interface IEntry extends Entry{
 }
 
 
@@ -13,7 +13,8 @@ const entrySchema = new Schema({
         enum: {
             values: ["pending", "in-progress", "finished"],
             message: '{VALUE} is not a valid status'
-        }
+        },
+        default: "pending"
     }
 })
 
