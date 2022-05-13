@@ -31,7 +31,6 @@ export const NewEntry = () => {
     addNewEntry(inputValue);
     setIsAddingEntry(false);
     setTouched(false);
-    Swal.fire('¡Listo!', 'Se ha agregado una nueva entrada', 'success');
   };
 
   return (
