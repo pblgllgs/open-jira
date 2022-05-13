@@ -24,6 +24,7 @@ import { dbEntries } from '../../database';
 import { useContext } from 'react';
 import { EntriesContext } from '../../context/entries';
 import { useRouter } from 'next/router';
+import { dateFunctions } from '../../utils';
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished'];
 
@@ -32,7 +33,7 @@ interface Props {
 }
 
 const EntryPage: FC<Props> = ({ entry }) => {
-  const router = useRouter()
+  const router = useRouter();
   const { updateEntry, deleteEntry } = useContext(EntriesContext);
   const [inputValue, setInputValue] = useState(entry.description);
   const [status, setStatus] = useState<EntryStatus>(entry.status);
@@ -60,7 +61,6 @@ const EntryPage: FC<Props> = ({ entry }) => {
   const onDelete = () => {
     deleteEntry(entry);
     router.push('/');
-
   };
 
   const isNotValid = useMemo(
@@ -75,7 +75,9 @@ const EntryPage: FC<Props> = ({ entry }) => {
           <Card>
             <CardHeader
               title={`Entrada:`}
-              subheader={`Creada hace: ${entry.createdAt}`}
+              subheader={`Creada hace: ${dateFunctions.getFormatDistanceToNow(
+                entry.createdAt
+              )}`}
             />
             <CardContent>
               <TextField
@@ -119,7 +121,8 @@ const EntryPage: FC<Props> = ({ entry }) => {
           </Card>
         </Grid>
       </Grid>
-      <IconButton onClick={onDelete}
+      <IconButton
+        onClick={onDelete}
         sx={{
           position: 'fixed',
           botton: 30,
