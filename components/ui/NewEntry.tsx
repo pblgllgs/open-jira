@@ -31,6 +31,7 @@ export const NewEntry = () => {
     addNewEntry(inputValue);
     setIsAddingEntry(false);
     setTouched(false);
+    setInputValue(INITIAL_FORM);
   };
 
   return (
