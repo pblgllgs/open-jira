@@ -1,0 +1,12 @@
+node_module
+
+Dockerfile
+.dockerignore
+
+npm-debug.log
+
+README.md
+.next
+
+
+mongo
